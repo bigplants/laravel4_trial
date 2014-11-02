@@ -1,23 +1,14 @@
 # ディレクトリ作成
-directory "#{node[:app_root]}app/tmp" do
+directory "#{node[:app_root]}app/storage" do
   owner 'vagrant'
   group 'vagrant'
   mode 0777
-  action :create
-  not_if {::File.exists?("#{node[:app_root]}app/tmp")}
-end
-directory "#{node[:app_root]}app/logs" do
-  owner 'vagrant'
-  group 'vagrant'
-  mode 0777
-  action :create
-  not_if {::File.exists?("#{node[:app_root]}app/logs")}
+  recursive true
 end
 
-
-bash "run cake console command" do
+bash "composer install" do
   code <<-EOS
-    cd #{node[:app_root]}app; composer install
+    cd #{node[:app_root]}; composer install
   EOS
 end
 
